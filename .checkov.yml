@@ -1,0 +1,8 @@
+framework:
+  - terraform
+compact: true
+quiet: true
+download-external-modules: false
+skip-check:
+  # Demo stacks intentionally include public load balancer/API entry points.
+  - CKV_AZURE_160

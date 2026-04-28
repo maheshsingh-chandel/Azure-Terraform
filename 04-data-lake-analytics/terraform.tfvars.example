@@ -1,0 +1,4 @@
+location        = "eastus"
+project_name    = "data-lake-analytics"
+environment     = "dev"
+sql_admin_login = "sqladminuser"

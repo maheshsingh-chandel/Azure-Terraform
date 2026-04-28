@@ -1,0 +1,5 @@
+primary_location   = "eastus"
+secondary_location = "westus2"
+project_name       = "multi-region-dr"
+environment        = "dev"
+sql_admin_login    = "sqladminuser"

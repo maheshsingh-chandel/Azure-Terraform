@@ -1,0 +1,23 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log
+crash.*.log
+.terraform.lock.hcl
+
+# Local IDE files
+.vs/
+.vscode/
+
+# Generated archives
+*.zip
+
+# Secrets and local overrides
+*.tfvars
+*.tfvars.json
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json

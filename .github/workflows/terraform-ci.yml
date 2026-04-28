@@ -1,0 +1,50 @@
+name: terraform-ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: matrix
+        shell: bash
+        run: |
+          dirs=$(find . -maxdepth 1 -type d -name '0*-*' | sed 's#^\./##' | jq -R -s -c 'split("\n")[:-1]')
+          echo "matrix={\"directory\":${dirs}}" >> "$GITHUB_OUTPUT"
+
+  terraform:
+    needs: discover
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.discover.outputs.matrix) }}
+    defaults:
+      run:
+        working-directory: ${{ matrix.directory }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.8.5
+      - run: terraform fmt -check -recursive
+      - run: terraform init -backend=false
+      - run: terraform validate
+      - uses: terraform-linters/setup-tflint@v4
+      - run: tflint --init --config ../.tflint.hcl
+      - run: tflint --config ../.tflint.hcl
+      - uses: bridgecrewio/checkov-action@v12
+        with:
+          directory: ${{ matrix.directory }}
+          config_file: .checkov.yml
+          quiet: true

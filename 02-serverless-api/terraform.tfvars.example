@@ -1,0 +1,5 @@
+location        = "eastus"
+project_name    = "serverless-api"
+environment     = "dev"
+publisher_name  = "Platform Team"
+publisher_email = "platform@example.com"

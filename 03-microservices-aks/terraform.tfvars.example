@@ -1,0 +1,3 @@
+location     = "eastus"
+project_name = "microservices-aks"
+environment  = "dev"
