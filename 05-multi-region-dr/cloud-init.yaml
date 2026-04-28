@@ -1,0 +1,19 @@
+#cloud-config
+package_update: true
+packages:
+  - nginx
+write_files:
+  - path: /var/www/html/index.html
+    content: |
+      <!doctype html>
+      <html>
+        <head><title>Azure Multi-region DR</title></head>
+        <body>
+          <h1>Azure Multi-region DR</h1>
+          <p>Region: ${region}</p>
+          <p>Role: ${role}</p>
+        </body>
+      </html>
+runcmd:
+  - systemctl enable nginx
+  - systemctl restart nginx

@@ -1,0 +1,19 @@
+#cloud-config
+package_update: true
+packages:
+  - nginx
+write_files:
+  - path: /var/www/html/index.html
+    content: |
+      <!doctype html>
+      <html>
+        <head><title>Azure Three Tier Web</title></head>
+        <body>
+          <h1>Azure Three Tier Web</h1>
+          <p>MySQL host: ${mysql_host}</p>
+          <p>Redis host: ${redis_host}</p>
+        </body>
+      </html>
+runcmd:
+  - systemctl enable nginx
+  - systemctl restart nginx
